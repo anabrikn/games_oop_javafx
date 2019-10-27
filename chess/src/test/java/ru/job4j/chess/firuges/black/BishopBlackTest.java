@@ -6,6 +6,11 @@ import ru.job4j.chess.firuges.Figure;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
+
+
+import org.junit.Assert;
+
+
 public class BishopBlackTest {
     @Test
     public void whenCreateBishopBlackPositionIsSame() {
@@ -51,4 +56,29 @@ public class BishopBlackTest {
         Cell[] expected = {Cell.E7, Cell.D6, Cell.C5, Cell.B4, Cell.A3};
         assertThat(bishopCells, is(expected));
     }
+
+    @Test(expected = IllegalStateException.class)
+    public void whenFigureWayIsNotCorrectThenException() {
+        BishopBlack bishopBlack = new BishopBlack(Cell.C1);
+        bishopBlack.way(bishopBlack.position(), Cell.C3);
+    }
+
+    @Test
+    public void whenRightPathChosenThenIsDiagonalTrue() {
+        BishopBlack bBishop = new BishopBlack(Cell.D4);
+        Cell source = Cell.D4;
+        Cell dest = Cell.A7;
+        boolean isDiagonal = bBishop.isDiagonal(source, dest);
+        Assert.assertThat(isDiagonal, is(true));
+    }
+
+    @Test
+    public void whenWrongPathChosenThenIsDiagonalFalse() {
+        BishopBlack bBishop = new BishopBlack(Cell.C3);
+        Cell source = Cell.C3;
+        Cell dest = Cell.E2;
+        boolean isDiagonal = bBishop.isDiagonal(source, dest);
+        Assert.assertThat(isDiagonal, is(false));
+    }
+
 }

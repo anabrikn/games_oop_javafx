@@ -21,19 +21,19 @@ public class BishopBlack implements Figure {
     }
 
     @Override
-    public Cell[] way(Cell source, Cell destination) throws IllegalStateException {
-//        if (!isDiagonal(source, dest)) {
-//            throw new IllegalStateException(
-//                    String.format("Could not way by diagonal from %s to %s", source, dest)
-//            );
-//        }
+    public Cell[] way(Cell source, Cell destination) {
+        if (!isDiagonal(source, destination)) {
+            throw new IllegalStateException(
+                    String.format("Could not way by diagonal from %s to %s", source, destination)
+            );
+        }
+
         int size = Math.abs(destination.getX() - source.getX());
         Cell[] steps = new Cell[size];
         int deltaX = source.getX() < destination.getX() ? 1 : -1;
         int deltaY = source.getY() < destination.getY() ? 1 : -1;
         int x = source.getX();
         int y = source.getY();
-
         for (int index = 0; index < size; index++) {
             if (deltaX == 1) {
                 x++;
@@ -45,16 +45,13 @@ public class BishopBlack implements Figure {
             } else {
                 y--;
             }
-
-
             steps[index] = Cell.findByXY(x, y);
         }
         return steps;
     }
 
     public boolean isDiagonal(Cell source, Cell dest) {
-        //TODO check diagonal
-        return false;
+        return Math.abs(source.x - dest.x) == Math.abs(source.y - dest.y);
     }
 
     @Override
