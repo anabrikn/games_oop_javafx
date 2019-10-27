@@ -25,19 +25,22 @@ public class Logic {
         boolean rst = false;
         int index = this.findBy(source);
         if (index != -1) {
-            Cell[] steps = this.figures[index].way(source, dest);
-
-            int check = -1;
-            for (int i = 0; i != steps.length; i++) {
-                check = findBy(steps[i]);
-                if (check >= 0) {
-                    break;
+            Cell[] steps;
+            try {
+                steps = this.figures[index].way(source, dest);
+                int check = -1;
+                for (int i = 0; i != steps.length; i++) {
+                    check = findBy(steps[i]);
+                    if (check >= 0) {
+                        break;
+                    }
                 }
-            }
-
-            if (steps.length > 0 && steps[steps.length - 1].equals(dest) && check < 0) {
-                rst = true;
-                this.figures[index] = this.figures[index].copy(dest);
+                if (steps.length > 0 && steps[steps.length - 1].equals(dest) && check < 0) {
+                    rst = true;
+                    this.figures[index] = this.figures[index].copy(dest);
+                }
+            } catch (IllegalStateException ise) {
+                System.out.println(ise.getMessage());
             }
         }
         return rst;
